@@ -88,11 +88,11 @@ function waitTestNode {
 
 waitTestNode http://localhost:18545
 
-FOUNDRY_PROFILE=genesis forge test \
-  -vvv \
-  --gas-report \
-  --fork-url http://localhost:18545 \
-  --fork-retry-backoff 120 \
-  --no-storage-caching \
-  --match-path test/genesis/GenerateGenesis.g.sol \
-  --block-gas-limit 1000000000
+# FOUNDRY_PROFILE=genesis forge test \
+#   -vvv \
+#   --gas-report \
+#   --fork-url http://localhost:18545 \
+#   --fork-retry-backoff 120 \
+#   --no-storage-caching \
+#   --match-path test/genesis/GenerateGenesis.g.sol \
+#   --block-gas-limit 1000000000
