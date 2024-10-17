@@ -13,8 +13,8 @@ import "./ITaikoL1.sol";
 /// @notice This contract serves as the "base layer contract" of the Taiko protocol, providing
 /// functionalities for proposing, proving, and verifying blocks. The term "base layer contract"
 /// means that although this is usually deployed on L1, it can also be deployed on L2s to create
-/// L3 "inception layers". The contract also handles the deposit and withdrawal of Taiko tokens
-/// and Ether. Additionally, this contract doesn't hold any Ether. Ether deposited to L2 are held
+/// L3 "inception layers". The contract also handles the deposit and withdrawal of Ether.
+/// Additionally, this contract doesn't hold any Ether. Ether deposited to L2 are held
 /// by the Bridge contract.
 /// @dev Labeled in AddressResolver as "taiko"
 /// @custom:security-contact security@taiko.xyz
@@ -164,13 +164,13 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
     }
 
     /// @inheritdoc ITaikoL1
-    function depositBond(uint256 _amount) external whenNotPaused {
-        LibBonds.depositBond(state, this, _amount);
+    function depositBond() external payable whenNotPaused {
+        LibBonds.depositBond(state, msg.value);
     }
 
     /// @inheritdoc ITaikoL1
     function withdrawBond(uint256 _amount) external whenNotPaused {
-        LibBonds.withdrawBond(state, this, _amount);
+        LibBonds.withdrawBond(state, _amount);
     }
 
     /// @notice Gets the current bond balance of a given address.
@@ -295,7 +295,7 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
             blockRingBufferSize: 360_000, // = 7200 * 50
             maxBlocksToVerify: 16,
             blockMaxGasLimit: 240_000_000,
-            livenessBond: 125e18, // 125 Taiko token
+            livenessBond: 0.07 ether,
             stateRootSyncInternal: 16,
             maxAnchorHeightOffset: 64,
             baseFeeConfig: LibSharedData.BaseFeeConfig({

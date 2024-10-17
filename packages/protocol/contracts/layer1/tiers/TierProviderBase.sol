@@ -14,7 +14,7 @@ abstract contract TierProviderBase is ITierProvider {
     /// asynchronous, this grace period allows provers to defer submissions until gas
     /// prices become more favorable, potentially reducing transaction costs.
     uint16 public constant GRACE_PERIOD = 240; // minutes
-    uint96 public constant BOND_UNIT = 75 ether; // TAIKO tokens
+    uint96 public constant BOND_UNIT = 0.04 ether;
 
     /// @inheritdoc ITierProvider
     /// @notice Each tier, except the top tier, has a validity bond that is 75 TAIKO higher than the

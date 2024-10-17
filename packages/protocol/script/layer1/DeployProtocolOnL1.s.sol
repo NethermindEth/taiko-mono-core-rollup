@@ -29,9 +29,7 @@ import "src/layer1/mainnet/multirollup/MainnetERC20Vault.sol";
 import "src/layer1/mainnet/multirollup/MainnetERC721Vault.sol";
 import "src/layer1/mainnet/multirollup/MainnetSignalService.sol";
 import "src/layer1/provers/GuardianProver.sol";
-import "src/layer1/provers/ProverSet.sol";
 import "src/layer1/tiers/TierProviderV2.sol";
-import "src/layer1/token/TaikoToken.sol";
 import "src/layer1/verifiers/Risc0Verifier.sol";
 import "src/layer1/verifiers/SP1Verifier.sol";
 import "test/layer1/based/TestTierProvider.sol";
@@ -141,18 +139,6 @@ contract DeployProtocolOnL1 is DeployCapability {
                 name: "shared_address_manager",
                 impl: address(new AddressManager()),
                 data: abi.encodeCall(AddressManager.init, (address(0)))
-            });
-        }
-
-        address taikoToken = vm.envAddress("TAIKO_TOKEN");
-        if (taikoToken == address(0)) {
-            taikoToken = deployProxy({
-                name: "taiko_token",
-                impl: address(new TaikoToken()),
-                data: abi.encodeCall(
-                    TaikoToken.init, (owner, vm.envAddress("TAIKO_TOKEN_PREMINT_RECIPIENT"))
-                ),
-                registerTo: sharedAddressManager
             });
         }
 
@@ -340,8 +326,6 @@ contract DeployProtocolOnL1 is DeployCapability {
             data: abi.encodeCall(GuardianProver.init, (address(0), rollupAddressManager))
         });
 
-        GuardianProver(guardianProverMinority).enableTaikoTokenAllowance(true);
-
         address guardianProver = deployProxy({
             name: "guardian_prover",
             impl: guardianProverImpl,
@@ -388,14 +372,6 @@ contract DeployProtocolOnL1 is DeployCapability {
         console2.log("SigVerifyLib", address(sigVerifyLib));
         console2.log("PemCertChainLib", address(pemCertChainLib));
         console2.log("AutomataDcapVaAttestation", automataProxy);
-
-        deployProxy({
-            name: "prover_set",
-            impl: address(new ProverSet()),
-            data: abi.encodeCall(
-                ProverSet.init, (owner, vm.envAddress("PROVER_SET_ADMIN"), rollupAddressManager)
-            )
-        });
 
         deployZKVerifiers(owner, rollupAddressManager);
     }

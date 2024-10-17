@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "src/shared/common/EssentialContract.sol";
 import "src/shared/common/LibStrings.sol";
 import "../verifiers/IVerifier.sol";
@@ -151,25 +149,6 @@ contract GuardianProver is IVerifier, EssentialContract {
         provingAutoPauseEnabled = _enable;
 
         emit ProvingAutoPauseEnabled(_enable);
-    }
-
-    /// @notice Enables unlimited allowance for Taiko L1 contract.
-    /// param _enable true if unlimited allowance is approved, false to set the allowance to 0.
-    function enableTaikoTokenAllowance(bool _enable) external onlyOwner {
-        address tko = resolve(LibStrings.B_TAIKO_TOKEN, false);
-        address taiko = resolve(LibStrings.B_TAIKO, false);
-        IERC20(tko).approve(taiko, _enable ? type(uint256).max : 0);
-    }
-
-    /// @dev Withdraws Taiko Token to a given address.
-    /// @param _to The recipient address.
-    /// @param _amount The amount of Taiko token to withdraw. Use 0 for all balance.
-    function withdrawTaikoToken(address _to, uint256 _amount) external onlyOwner {
-        if (_to == address(0)) revert GV_ZERO_ADDRESS();
-
-        IERC20 tko = IERC20(resolve(LibStrings.B_TAIKO_TOKEN, false));
-        uint256 amount = _amount == 0 ? tko.balanceOf(address(this)) : _amount;
-        tko.transfer(_to, amount);
     }
 
     /// @dev Called by guardians to approve a guardian proof

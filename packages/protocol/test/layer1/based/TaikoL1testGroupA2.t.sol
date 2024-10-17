@@ -30,7 +30,7 @@ contract TaikoL1TestGroupA2 is TaikoL1TestGroupBase {
         mine(1);
         printBlockAndTrans(0);
 
-        giveEthAndTko(Alice, 10_000 ether, 1000 ether);
+        giveEthAndDepositBond(Alice, 1000 ether);
         TaikoData.Config memory config = L1.getConfig();
 
         bytes32 parentHash = GENESIS_BLOCK_HASH;
@@ -83,7 +83,7 @@ contract TaikoL1TestGroupA2 is TaikoL1TestGroupBase {
             (, TaikoData.SlotB memory b) = L1.getStateVariables();
             assertEq(b.lastVerifiedBlockId, 5);
 
-            assertEq(totalTkoBalance(tko, L1, Alice), 10_000 ether);
+            assertEq(L1.bondBalanceOf(Alice), 1000 ether);
         }
     }
 
@@ -96,7 +96,7 @@ contract TaikoL1TestGroupA2 is TaikoL1TestGroupBase {
         mine(1);
         printBlockAndTrans(0);
 
-        giveEthAndTko(Alice, 10_000 ether, 1000 ether);
+        giveEthAndDepositBond(Alice, 1000 ether);
 
         TaikoData.Config memory config = L1.getConfig();
 

@@ -378,7 +378,7 @@ library LibProving {
             // Handles the case when an incoming tier is higher than the current transition's tier.
             // Reverts when the incoming proof tries to prove the same transition
             // (L1_ALREADY_PROVED).
-            _overrideWithHigherProof(_state, _resolver, blk, ts, ctx_.tran, local.proof, local);
+            _overrideWithHigherProof(_state, blk, ts, ctx_.tran, local.proof, local);
 
             if (local.postFork) {
                 emit TransitionProvedV2({
@@ -446,7 +446,7 @@ library LibProving {
 
                 // _checkIfContestable(/*_state,*/ tier.cooldownWindow, ts.timestamp);
                 // Burn the contest bond from the prover.
-                LibBonds.debitBond(_state, _resolver, msg.sender, local.tier.contestBond);
+                LibBonds.debitBond(_state, msg.sender, local.tier.contestBond);
 
                 // We retain the contest bond within the transition, just in
                 // case this configuration is altered to a different value
@@ -569,7 +569,6 @@ library LibProving {
     // 6.5625.
     function _overrideWithHigherProof(
         TaikoData.State storage _state,
-        IAddressResolver _resolver,
         TaikoData.BlockV2 storage _blk,
         TaikoData.TransitionState memory _ts,
         TaikoData.Transition memory _tran,
@@ -631,7 +630,7 @@ library LibProving {
             if (reward > _local.tier.validityBond) {
                 LibBonds.creditBond(_state, msg.sender, reward - _local.tier.validityBond);
             } else if (reward < _local.tier.validityBond) {
-                LibBonds.debitBond(_state, _resolver, msg.sender, _local.tier.validityBond - reward);
+                LibBonds.debitBond(_state, msg.sender, _local.tier.validityBond - reward);
             }
         }
 

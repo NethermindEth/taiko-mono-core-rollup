@@ -86,12 +86,11 @@ interface ITaikoL1 {
         view
         returns (TaikoData.TransitionState memory);
 
-    /// @notice Deposits Taiko token to be used as bonds.
-    /// @param _amount The amount of Taiko token to deposit.
-    function depositBond(uint256 _amount) external;
+    /// @notice Deposits Ether to be used as bonds.
+    function depositBond() external payable;
 
-    /// @notice Withdraws Taiko token.
-    /// @param _amount The amount of Taiko token to withdraw.
+    /// @notice Withdraws Ether deposited as bonds.
+    /// @param _amount The amount of Ether to withdraw.
     function withdrawBond(uint256 _amount) external;
 
     /// @notice Gets the prover that actually proved a verified block.

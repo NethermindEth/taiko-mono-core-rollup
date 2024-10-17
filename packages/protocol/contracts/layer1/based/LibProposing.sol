@@ -309,7 +309,7 @@ library LibProposing {
             ++_state.slotB.numBlocks;
         }
 
-        LibBonds.debitBond(_state, _resolver, local.params.proposer, _config.livenessBond);
+        LibBonds.debitBond(_state, local.params.proposer, _config.livenessBond);
 
         // Bribe the block builder. Unlike 1559-tips, this tip is only made
         // if this transaction succeeds.

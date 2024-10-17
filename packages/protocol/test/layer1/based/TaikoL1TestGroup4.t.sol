@@ -13,9 +13,9 @@ contract TaikoL1TestGroup4 is TaikoL1TestGroupBase {
     function test_taikoL1_group_4_case_1() external {
         vm.warp(1_000_000);
 
-        giveEthAndTko(Alice, 10_000 ether, 1000 ether);
+        giveEthAndDepositBond(Alice, 1000 ether);
 
-        giveEthAndTko(Taylor, 10_000 ether, 1000 ether);
+        giveEthAndDepositBond(Taylor, 1000 ether);
         ITierProvider.Tier memory tierOp = TestTierProvider(cp).getTier(LibTiers.TIER_OPTIMISTIC);
         ITierProvider.Tier memory tierSgx = TestTierProvider(cp).getTier(LibTiers.TIER_SGX);
 
@@ -53,10 +53,10 @@ contract TaikoL1TestGroup4 is TaikoL1TestGroupBase {
             assertEq(ts.prover, Taylor);
             assertEq(ts.timestamp, block.timestamp);
 
-            assertEq(totalTkoBalance(tko, L1, Alice), 10_000 ether - tierOp.validityBond);
+            assertEq(L1.bondBalanceOf(Alice), 1000 ether - tierOp.validityBond);
             assertEq(
-                tko.balanceOf(Taylor),
-                10_000 ether - tierSgx.validityBond + tierOp.validityBond * 7 / 8
+                L1.bondBalanceOf(Taylor),
+                1000 ether - tierSgx.validityBond + tierOp.validityBond * 7 / 8
             );
         }
 
@@ -78,7 +78,7 @@ contract TaikoL1TestGroup4 is TaikoL1TestGroupBase {
             assertEq(ts.tier, LibTiers.TIER_SGX);
             assertEq(ts.prover, Taylor);
 
-            assertEq(totalTkoBalance(tko, L1, Taylor), 10_000 ether + tierOp.validityBond * 7 / 8);
+            assertEq(L1.bondBalanceOf(Taylor), 1000 ether + tierOp.validityBond * 7 / 8);
         }
     }
 
@@ -91,10 +91,10 @@ contract TaikoL1TestGroup4 is TaikoL1TestGroupBase {
     function test_taikoL1_group_4_case_2() external {
         vm.warp(1_000_000);
 
-        giveEthAndTko(Alice, 10_000 ether, 1000 ether);
+        giveEthAndDepositBond(Alice, 1000 ether);
 
-        giveEthAndTko(David, 10_000 ether, 1000 ether);
-        giveEthAndTko(Taylor, 10_000 ether, 1000 ether);
+        giveEthAndDepositBond(David, 1000 ether);
+        giveEthAndDepositBond(Taylor, 1000 ether);
         ITierProvider.Tier memory tierOp = TestTierProvider(cp).getTier(LibTiers.TIER_OPTIMISTIC);
         ITierProvider.Tier memory tierSgx = TestTierProvider(cp).getTier(LibTiers.TIER_SGX);
 
@@ -134,13 +134,13 @@ contract TaikoL1TestGroup4 is TaikoL1TestGroupBase {
             assertEq(ts.prover, Taylor);
             assertEq(ts.timestamp, block.timestamp);
 
-            assertEq(totalTkoBalance(tko, L1, Alice), 10_000 ether - livenessBond);
+            assertEq(L1.bondBalanceOf(Alice), 1000 ether - livenessBond);
             assertEq(
-                tko.balanceOf(David), 10_000 ether - tierOp.validityBond + livenessBond * 7 / 8
+                L1.bondBalanceOf(David), 1000 ether - tierOp.validityBond + livenessBond * 7 / 8
             );
             assertEq(
-                tko.balanceOf(Taylor),
-                10_000 ether - tierSgx.validityBond + tierOp.validityBond * 7 / 8
+                L1.bondBalanceOf(Taylor),
+                1000 ether - tierSgx.validityBond + tierOp.validityBond * 7 / 8
             );
         }
 
@@ -162,7 +162,7 @@ contract TaikoL1TestGroup4 is TaikoL1TestGroupBase {
             assertEq(ts.tier, LibTiers.TIER_SGX);
             assertEq(ts.prover, Taylor);
 
-            assertEq(totalTkoBalance(tko, L1, Taylor), 10_000 ether + tierOp.validityBond * 7 / 8);
+            assertEq(L1.bondBalanceOf(Taylor), 1000 ether + tierOp.validityBond * 7 / 8);
         }
     }
 }

@@ -30,7 +30,7 @@ library TaikoData {
         // ---------------------------------------------------------------------
         // Group 3: Proof related configs
         // ---------------------------------------------------------------------
-        // The amount of Taiko token as a prover liveness bond
+        // The amount of Ether as a prover liveness bond
         uint96 livenessBond;
         // ---------------------------------------------------------------------
         // Group 4: Cross-chain sync

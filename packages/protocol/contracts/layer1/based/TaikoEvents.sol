@@ -11,10 +11,10 @@ import "./TaikoData.sol";
 /// L1 libraries.
 /// @custom:security-contact security@taiko.xyz
 abstract contract TaikoEvents {
-    /// @dev Emitted when token is credited back to a user's bond balance.
+    /// @dev Emitted when ether is credited back to a user's bond balance.
     event BondCredited(address indexed user, uint256 amount);
 
-    /// @dev Emitted when token is debited from a user's bond balance.
+    /// @dev Emitted when ether is debited from a user's bond balance.
     event BondDebited(address indexed user, uint256 amount);
 
     /// @notice Emitted when a block is proposed.

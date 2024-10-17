@@ -21,9 +21,6 @@ contract RollupAddressCache is AddressCache {
             return (false, address(0));
         }
 
-        if (_name == LibStrings.B_TAIKO_TOKEN) {
-            return (true, 0x10dea67478c5F8C5E2D90e5E9B26dBe60c54d800);
-        }
         if (_name == LibStrings.B_SIGNAL_SERVICE) {
             return (true, 0x9e0a24964e5397B566c1ed39258e21aB5E35C77C);
         }
