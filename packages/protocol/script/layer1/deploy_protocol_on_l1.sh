@@ -24,7 +24,7 @@ NUM_MIN_MINORITY_GUARDIANS=2 \
 TIER_PROVIDER="devnet" \
 FOUNDRY_PROFILE="layer1" \
 forge script ./script/layer1/DeployProtocolOnL1.s.sol:DeployProtocolOnL1 \
-    --fork-url http://localhost:8545 \
+    --fork-url http://localhost:32002 \
     --broadcast \
     --ffi \
     -vvvv \
@@ -38,7 +38,7 @@ TAIKO_TOKEN_NAME="Taiko Token" \
 TAIKO_TOKEN_SYMBOL=TAIKO \
 FOUNDRY_PROFILE="layer1" \
 forge script ./script/layer1/DeployTaikoToken.s.sol:DeployTaikoToken \
-    --fork-url http://localhost:8545 \
+    --fork-url http://localhost:32002 \
     --broadcast \
     --ffi \
     -vvvv \
