@@ -265,7 +265,7 @@ func (p *Proposer) fetchPoolContent(filterPoolContent bool) ([]types.Transaction
 		txLists = localTxsLists
 	}
 
-	log.Info("Transactions lists count", "count", len(txLists))
+	log.Info("Transactions1 lists count", "count", len(txLists))
 
 	return txLists, nil
 }
@@ -283,7 +283,7 @@ func (p *Proposer) ProposeOp(ctx context.Context) error {
 	}
 
 	log.Info(
-		"Start fetching L2 execution engine's transaction pool content",
+		"Start1 fetching L2 execution engine's transaction pool content",
 		"filterPoolContent", filterPoolContent,
 		"lastProposedAt", p.lastProposedAt,
 	)
@@ -293,11 +293,12 @@ func (p *Proposer) ProposeOp(ctx context.Context) error {
 		return err
 	}
 
+	log.Info("ProposeTxLists2 txLists", "count", len(txLists))
 	// If the pool content is empty, return.
 	if len(txLists) == 0 {
 		return nil
 	}
-
+	log.Info("ProposeTxLists3 txLists", "count", len(txLists))
 	// Propose the transactions lists.
 	return p.ProposeTxLists(ctx, txLists)
 }
