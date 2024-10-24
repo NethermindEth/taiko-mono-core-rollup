@@ -584,7 +584,7 @@ func adjustForPriceFluctuation(gasPrice *big.Int, percentage uint64) *big.Int {
 // (gas price on L1 + 50% for price fluctuation) +
 //
 //	off chain proving costs (estimated with a margin for the provers' revenue)
-func (p *Proposer) estimateTotalCosts(gasUsed uint64) (*big.Int, error) {
+func (p *Proposer) estimateTotalCosts(_ uint64) (*big.Int, error) {
 	log.Info("Gas needed for proposing", "gas", p.GasNeededForProposingBlock)
 	log.Info("Gas needed for proving", "gas", p.GasNeededForProvingBlock)
 	log.Info("Price fluctuation", "gas", p.PriceFluctuationModifier)

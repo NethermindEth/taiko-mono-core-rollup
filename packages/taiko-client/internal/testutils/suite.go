@@ -69,8 +69,8 @@ func (s *ClientTestSuite) SetupTest() {
 
 	l1ProverPrivKey, err := crypto.ToECDSA(common.FromHex(os.Getenv("L1_PROVER_PRIVATE_KEY")))
 	s.Nil(err)
-	if rpcCli.TaikoToken != nil {
 
+	if rpcCli.TaikoToken != nil {
 		allowance, err := rpcCli.TaikoToken.Allowance(
 			nil,
 			crypto.PubkeyToAddress(l1ProverPrivKey.PublicKey),
@@ -137,6 +137,10 @@ func (s *ClientTestSuite) SetupTest() {
 
 		_, err = rpcCli.TaikoL1.DepositBond(ownerOpts)
 		s.Nil(err)
+
+		balance, err := rpcCli.L1.BalanceAt(context.Background(), crypto.PubkeyToAddress(ownerPrivKey.PublicKey), nil)
+		s.Nil(err)
+		log.Info("L1 balance", "balance", balance.String())
 	}
 
 	s.testnetL1SnapshotID = s.SetL1Snapshot()
