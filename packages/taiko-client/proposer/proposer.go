@@ -300,7 +300,7 @@ func (p *Proposer) ProposeOp(ctx context.Context) error {
 	}
 
 	log.Info(
-		"Start1 fetching L2 execution engine's transaction pool content",
+		"Start fetching L2 execution engine's transaction pool content",
 		"filterPoolContent", filterPoolContent,
 		"lastProposedAt", p.lastProposedAt,
 	)
@@ -322,15 +322,12 @@ func (p *Proposer) ProposeOp(ctx context.Context) error {
 
 // ProposeTxList proposes the given transactions lists to TaikoL1 smart contract.
 func (p *Proposer) ProposeTxLists(ctx context.Context, txLists []types.Transactions) error {
-
-	log.Info("ProposeTxLists txLists", "count", len(txLists))
 	// Check if the current L2 chain is after ontake fork.
 	state, err := rpc.GetProtocolStateVariables(p.rpc.TaikoL1, &bind.CallOpts{Context: ctx})
 	if err != nil {
 		return err
 	}
 
-	log.Info("GetProtocolStateVariables state", "state", state)
 	// If the current L2 chain is before ontake fork, propose the transactions lists one by one.
 	if !p.chainConfig.IsOntake(new(big.Int).SetUint64(state.B.NumBlocks)) {
 		g, gCtx := errgroup.WithContext(ctx)
@@ -597,6 +594,8 @@ func (p *Proposer) estimateTotalCosts(gasUsed uint64) (*big.Int, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Info("L1 gas price", "price", l1GasPrice)
+	log.Info("Price fluctuation", "gasNeeded", p.PriceFluctuationModifier)
 	adjustedL1GasPrice := adjustForPriceFluctuation(l1GasPrice, p.PriceFluctuationModifier)
 	l1Costs := new(big.Int).Mul(totalL1GasNeeded, adjustedL1GasPrice)
 
