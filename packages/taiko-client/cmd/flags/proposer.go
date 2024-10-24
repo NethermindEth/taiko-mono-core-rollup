@@ -140,6 +140,7 @@ var (
 	OffChainCosts = &cli.StringFlag{
 		Name:     "surge.offChainCosts",
 		Usage:    "Off chain costs in WEI",
+		Value:    "0",
 		Category: proposerCategory,
 		EnvVars:  []string{"SURGE_OFF_CHAIN_COSTS"},
 	}
