@@ -587,6 +587,7 @@ func adjustForPriceFluctuation(gasPrice *big.Int, percentage uint64) *big.Int {
 func (p *Proposer) estimateTotalCosts(gasUsed uint64) (*big.Int, error) {
 	log.Info("Gas needed for proposing", "gas", p.GasNeededForProposingBlock)
 	log.Info("Gas needed for proving", "gas", p.GasNeededForProvingBlock)
+	log.Info("Price fluctuation", "gas", p.PriceFluctuationModifier)
 	log.Info("Off chain costs", "gas", p.OffChainCosts)
 	totalL1GasNeeded := new(big.Int).Add(
 		new(big.Int).SetUint64(p.GasNeededForProposingBlock),
