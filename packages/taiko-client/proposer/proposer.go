@@ -266,7 +266,7 @@ func (p *Proposer) fetchPoolContent(filterPoolContent bool) ([]types.Transaction
 		txLists = localTxsLists
 	}
 
-	log.Info("Transactions1 lists count", "count", len(txLists))
+	log.Info("Transactions lists count", "count", len(txLists))
 
 	var (
 		profitableTxLists []types.Transactions
@@ -585,6 +585,8 @@ func adjustForPriceFluctuation(gasPrice *big.Int, percentage uint64) *big.Int {
 //
 //	off chain proving costs (estimated with a margin for the provers' revenue)
 func (p *Proposer) estimateTotalCosts(gasUsed uint64) (*big.Int, error) {
+	log.Info("Gas needed for proposing", "gas", p.GasNeededForProposingBlock)
+	log.Info("Gas needed for proving", "gas", p.GasNeededForProvingBlock)
 	totalL1GasNeeded := new(big.Int).Add(
 		new(big.Int).SetUint64(p.GasNeededForProposingBlock),
 		new(big.Int).SetUint64(p.GasNeededForProvingBlock),
@@ -594,8 +596,6 @@ func (p *Proposer) estimateTotalCosts(gasUsed uint64) (*big.Int, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Info("L1 gas price", "price", l1GasPrice)
-	log.Info("Price fluctuation", "gasNeeded", p.PriceFluctuationModifier)
 	adjustedL1GasPrice := adjustForPriceFluctuation(l1GasPrice, p.PriceFluctuationModifier)
 	l1Costs := new(big.Int).Mul(totalL1GasNeeded, adjustedL1GasPrice)
 
